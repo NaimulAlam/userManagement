@@ -1,9 +1,13 @@
 import React from 'react';
 import './All.css';
+import Navbar from './Navbar';
 
 const SignIn = () => {
   return (
     <div className="text-center">
+      <div>
+        <Navbar />
+      </div>
       <main className="form-signin">
         <form>
           <h2>

@@ -13,10 +13,10 @@ const Dashboard = () => {
         <h5 className="display-3 ">Wellcome to User Dashboard</h5>
       </div>
       <div className="row">
-        <div className="col-2">
+        <div className="col-3">
           <Sidebar />
         </div>
-        <div className="col-10 text-center">
+        <div className="col-9 text-center">
           <UserDashboard />
         </div>
       </div>
