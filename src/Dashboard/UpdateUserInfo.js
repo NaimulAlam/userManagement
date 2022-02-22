@@ -88,12 +88,12 @@ const UpdateUserInfo = () => {
 
   return (
     <div className="container-fluid">
-      <div className="row">
+      <div>
         <div>
           <Navbar />
         </div>
-        <div className="col py-3" id="profile">
-          <div className="card card-body mt-4">
+        <div className="col my-5 py-0 py-md-5" id="profile">
+          <div className="formDiv mt-4">
             <form onSubmit={updateUserInfo}>
               <fieldset>
                 <legend>Update User Info</legend>

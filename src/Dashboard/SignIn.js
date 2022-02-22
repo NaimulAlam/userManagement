@@ -8,7 +8,7 @@ const SignIn = () => {
       <div>
         <Navbar />
       </div>
-      <main className="form-signin">
+      <main className="form-signin formDiv my-5 py-2 py-md-5">
         <form>
           <h2>
             <i className="bi bi-code-slash" />
@@ -22,13 +22,6 @@ const SignIn = () => {
           <div className="form-floating">
             <input type="password" className="form-control" id="floatingPassword" placeholder="Password" />
             <label htmlFor="floatingPassword">Password</label>
-          </div>
-
-          <div className="checkbox mb-3">
-            <input id="rememberme" type="checkbox" value="remember-me" />
-            <label htmlFor="rememberme" className="mx-2">
-              Remember me
-            </label>
           </div>
           <button className="w-100 btn btn-lg btn-primary" type="submit">
             Sign in

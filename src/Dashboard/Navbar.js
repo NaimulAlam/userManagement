@@ -37,7 +37,7 @@ const Navbar = () => {
               >
                 <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" className="rounded-circle" />
               </a>
-              <ul className="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+              <ul className="dropdown-menu text-small text-center" aria-labelledby="dropdownUser1">
                 <li>
                   <a className="dropdown-item" href="/update-details">
                     Update Details
@@ -52,8 +52,9 @@ const Navbar = () => {
                   <hr className="dropdown-divider" />
                 </li>
                 <li>
-                  <a className="dropdown-item" href="/">
-                    Sign out
+                  <a href="/" className="btn btn-danger">
+                    <i className="bi-x-octagon-fill pe-2" />
+                    <span>Signout</span>
                   </a>
                 </li>
               </ul>

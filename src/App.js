@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import AddUser from './Dashboard/AddUser';
+import AddAdmin from './Dashboard/AddAdmin';
 import Alluser from './Dashboard/Alluser';
 import Dashboard from './Dashboard/Dashboard';
 import PasswordUpdate from './Dashboard/PasswordUpdate';
@@ -18,7 +18,7 @@ function App() {
         <Route path="/update-details" element={<UpdateUserInfo />} />
         <Route path="/update-password" element={<PasswordUpdate />} />
         <Route path="/all-user" element={<Alluser />} />
-        <Route path="/add-user" element={<AddUser />} />
+        <Route path="/add-user" element={<AddAdmin />} />
       </Routes>
     </div>
   );

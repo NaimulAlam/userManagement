@@ -21,7 +21,7 @@ const UserDashboard = () => {
   }, []);
 
   return (
-    <div className="container">
+    <div className="container-fluid">
       <div className="m-md-5 m-1 py-3 px-md-5 px-1">
         <img src={user?.picture?.large} className="bd-placeholder-img rounded-circle" width="140" height="140" alt="" />
         <h2>{`${user?.name?.title}. ${user?.name?.first} ${user?.name?.last}`}</h2>
@@ -30,13 +30,14 @@ const UserDashboard = () => {
           <div className="accordion-item">
             <h2 className="accordion-header" id="flush-headingOne">
               <button
-                className="accordion-button collapsed"
+                className="btn btn-outline-info collapsed"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#flush-collapseOne"
                 aria-expanded="false"
                 aria-controls="flush-collapseOne"
               >
+                <i className="fs-4 bi-person-rolodex mx-2" />
                 View User Details
               </button>
             </h2>
