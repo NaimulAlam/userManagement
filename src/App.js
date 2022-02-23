@@ -15,6 +15,8 @@ import UpdateUserInfo from './Dashboard/UpdateUserInfo';
 export const UserContext = createContext();
 
 function App() {
+  const [theme, setTheme] = useState('');
+
   const [loggedInUser, setLoggedInUser] = useState({});
   const umtoken = localStorage.getItem('umtoken');
 
@@ -33,8 +35,8 @@ function App() {
   }
 
   return (
-    <div>
-      <Navbar />
+    <div className={theme}>
+      <Navbar theme={theme} setTheme={setTheme} />
 
       <UserContext.Provider value={[loggedInUser, setLoggedInUser]}>
         <Routes>

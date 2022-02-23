@@ -88,12 +88,7 @@ const SignIn = () => {
                 />
                 <div className="invalid-feedback">please type correct password</div>
               </div>
-              <div>
-                <p>
-                  Don't Remember your password? <Link to="/reset">reset</Link>
-                </p>
-              </div>
-              <div>
+              <div id="sign-in">
                 <button type="submit" className="btn btn-info px-4 my-2">
                   Sign In
                 </button>
