@@ -22,7 +22,7 @@ const Sidebar = () => {
           </a>
         </li>
         <li className="nav-item">
-          <a href="/all-user" className="nav-link px-0 align-middle">
+          <a href="/users" className="nav-link px-0 align-middle">
             <i className="fs-4 bi-card-list" />
             <span className="ms-1 d-none d-sm-inline">All User</span>
           </a>

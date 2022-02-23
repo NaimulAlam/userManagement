@@ -39,13 +39,15 @@ const Registration = () => {
     confirmPassword: Yup.string()
       .required('Confirm Password is required')
       .oneOf([Yup.ref('password')], 'Passwords must match'),
-    country: Yup.string().required('Country name is required'),
-    city: Yup.string().required('City name is required'),
-    road: Yup.string().required('Road name is required'),
-    zipCode: Yup.string()
-      .required('Zip Code is required')
-      .min(5, 'Zip code must be 5 digits')
-      .max(5, 'Zip code must be 5 digits'),
+    address: Yup.object().shape({
+      country: Yup.string().required('Country name is required'),
+      city: Yup.string().required('City name is required'),
+      street: Yup.string().required('street name is required'),
+      zipCode: Yup.string()
+        .required('Zip Code is required')
+        .min(5, 'Zip code must be 5 digits')
+        .max(5, 'Zip code must be 5 digits'),
+    }),
   });
 
   const formOptions = { resolver: yupResolver(validationSchema) };
@@ -63,30 +65,30 @@ const Registration = () => {
     console.log(submit);
     reset();
     // api call
-    // const url = 'https://goods4love.herokuapp.com/api/register';
-    // fetch(url, {
-    //   method: 'POST',
-    //   headers: { 'content-type': 'application/json' },
-    //   body: JSON.stringify(submit),
-    // })
-    //   .then((res) => {
-    //     return res.json();
-    //   })
-    //   .then((data) => {
-    //     console.log(data);
-    //     if (data.status === 'ok') {
-    //       reset();
-    //       alert('Sign Up Successfull!');
-    //       navigate('/login');
-    //     } else {
-    //       alert('Sign Up Failed!');
-    //     }
-    //     return data;
-    //   })
-    //   .catch((err) => {
-    //     console.log('err', err);
-    //   });
-    // display form data on success
+    const url = 'http://localhost:5000/register';
+    fetch(url, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(submit),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        if (data.status === 'OK') {
+          reset();
+          alert('Sign Up Successfull!');
+          navigate('/');
+        } else {
+          alert('Sign Up Failed!');
+        }
+        return data;
+      })
+      .catch((err) => {
+        console.log('err', err);
+      });
+    // // display form data on success
     // alert(`SUCCESS!! :-)\n\n${JSON.stringify(data, null, 4)}`);
   };
   console.log(errors);
@@ -102,7 +104,7 @@ const Registration = () => {
   return (
     <div>
       <Navbar />
-      <div datatype="form" id="SignUp" className="container my-5 pt-5">
+      <div datatype="form" id="SignUp" className="container my-4 pt-2">
         <form onSubmit={handleSubmit(onSubmit)} className="formDiv row g-3 px-md-5">
           <h3 className="text-center py-3"> Create An Acount </h3>
           <div className="col-12 position-relative">
@@ -178,26 +180,38 @@ const Registration = () => {
             <div className="invalid-feedback">{errors.confirmPassword?.message}</div>
           </div>
           <div className="col-12 position-relative">
-            <input className="form-control" type="text" name="country" placeholder="country" {...register('country')} />
-            <div className="invalid-feedback">{errors.country?.message}</div>
+            <input
+              className="form-control"
+              type="text"
+              name="address.country"
+              placeholder="country"
+              {...register('address.country')}
+            />
+            <div className="invalid-feedback">{errors.address?.country?.message}</div>
           </div>
           <div className="col-12 position-relative">
-            <input className="form-control" type="text" name="city" placeholder="city" {...register('city')} />
-            <div className="invalid-feedback">{errors.city?.message}</div>
+            <input className="form-control" type="text" name="city" placeholder="city" {...register('address.city')} />
+            <div className="invalid-feedback">{errors.address?.city?.message}</div>
           </div>
           <div className="col-12 position-relative">
-            <input className="form-control" type="text" name="road" placeholder="road" {...register('road')} />
-            <div className="invalid-feedback">{errors.road?.message}</div>
+            <input
+              className="form-control"
+              type="text"
+              name="address.street"
+              placeholder="street"
+              {...register('address.street')}
+            />
+            <div className="invalid-feedback">{errors.address?.street?.message}</div>
           </div>
           <div className="col-12 position-relative">
             <input
               className={`form-control ${errors.zipCode ? 'is-invalid' : ''}`}
               type="number"
-              name="zipCode"
+              name="address.zipCode"
               placeholder="Zip Code"
-              {...register('zipCode')}
+              {...register('address.zipCode')}
             />
-            <div className="invalid-feedback">{errors.zipCode?.message}</div>
+            <div className="invalid-feedback">{errors.address?.zipCode?.message}</div>
           </div>
           <div className="col-12 position-relative">
             <input

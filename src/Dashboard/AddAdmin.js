@@ -11,10 +11,10 @@ const AddAdmin = () => {
   };
 
   async function LoggedUser() {
-    const url = 'https://goods4love.herokuapp.com/api/userInfo';
+    const url = 'http://localhost:5000/userInfo';
     const req = await fetch(url, {
       headers: {
-        'x-access-token': localStorage.getItem('token'),
+        'x-access-token': localStorage.getItem('umtoken'),
       },
     });
     const data = await req.json();
@@ -39,10 +39,10 @@ const AddAdmin = () => {
       adminEmail,
       user: userInfo.email,
     };
-    const url = 'https://goods4love.herokuapp.com/api/addAdmin';
+    const url = 'http://localhost:5000/addAdmin';
     fetch(url, {
       method: 'POST',
-      headers: { 'content-type': 'application/json', 'x-access-token': localStorage.getItem('token') },
+      headers: { 'content-type': 'application/json', 'x-access-token': localStorage.getItem('umtoken') },
       body: JSON.stringify(AdminData),
     })
       .then((res) => {

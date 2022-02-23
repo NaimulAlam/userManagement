@@ -1,39 +1,60 @@
 import React, { useEffect, useState } from 'react';
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
+
 import Navbar from './Navbar';
 
 const UpdateUserInfo = () => {
   const [userInfo, setUserInfo] = useState({});
-  // usesate with odjaect fully working and tested
-  const [updateInfo, setUpdateInfo] = useState({
-    alias: userInfo?.alais,
-    name: userInfo?.name,
-    surname: userInfo?.surname,
-    email: userInfo?.email,
-    phone: userInfo?.phone,
-    address: {
-      country: userInfo?.address?.country,
-      city: userInfo?.address?.city,
-      street: userInfo?.address?.street,
-      zipCode: userInfo?.address?.zipCode,
-    },
+
+  const validationSchema = Yup.object().shape({
+    alias: Yup.string()
+      .required('Alias is required')
+      .min(3, 'Alias must be at least 3 characters')
+      .max(50, 'Alias must be less than 50 characters'),
+    name: Yup.string()
+      .required('Name is required')
+      .min(3, 'Name must contain 3 charecter')
+      .max(100, 'Max 100 charecter'),
+    surname: Yup.string()
+      .required('Surname is required')
+      .min(3, 'Surame must contain 3 charecter')
+      .max(100, 'Max 100 charecter'),
+    email: Yup.string()
+      .matches(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/)
+      .required('Email is required')
+      .lowercase(),
+    phone: Yup.string()
+      .required('Phone No. is required')
+      .min(9, 'Phone must be 9 charecter')
+      .max(20, 'Phone must be 13 charecter'),
+    address: Yup.object().shape({
+      country: Yup.string().required('Country name is required'),
+      city: Yup.string().required('City name is required'),
+      street: Yup.string().required('street name is required'),
+      zipCode: Yup.string()
+        .required('Zip Code is required')
+        .min(5, 'Zip code must be 5 digits')
+        .max(5, 'Zip code must be 5 digits'),
+    }),
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUpdateInfo((prevState) => {
-      return {
-        ...prevState,
-        [name]: value,
-      };
-    });
-    console.log('up', updateInfo);
-  };
+  const formOptions = { resolver: yupResolver(validationSchema) };
+
+  // get functions to build form with useForm() hook
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm(formOptions);
 
   async function LoggedUser() {
-    const url = 'https://goods4love.herokuapp.com/api/userInfo';
+    const url = 'http://localhost:5000/userInfo';
     const req = await fetch(url, {
       headers: {
-        'x-access-token': localStorage.getItem('token'),
+        'x-access-token': localStorage.getItem('umtoken'),
       },
     });
     const data = await req.json();
@@ -48,43 +69,32 @@ const UpdateUserInfo = () => {
 
   useEffect(() => {
     LoggedUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const updateUserInfo = async (e) => {
-    e.preventDefault();
-    const url = 'https://goods4love.herokuapp.com/api/userInfoUpdate';
+  const updateUserInfo = async (submit) => {
+    console.log('submit Update', submit);
+    const url = 'http://localhost:5000/updateUserInfo';
     const req = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-access-token': localStorage.getItem('token'),
+        'x-access-token': localStorage.getItem('umtoken'),
       },
-      body: JSON.stringify({
-        // most important line wasted 2 hr to figure out
-        // to send the data in the right format to the server
-        alais: updateInfo.alias,
-        name: updateInfo.name,
-        surname: updateInfo.surname,
-        email: updateInfo.email,
-        phone: updateInfo.phone,
-        address: {
-          country: updateInfo.address.country,
-          city: updateInfo.address.city,
-          street: updateInfo.address.street,
-          zipCode: updateInfo.address.zipCode,
-        },
-      }),
+      body: JSON.stringify(submit),
     });
     const data = await req.json();
     if (data.status === 'ok') {
-      updateInfo.surname = '';
-      updateInfo.ocupation = '';
+      console.log('data submitted', data);
+      alert('User Info Updated');
+      reset();
     } else {
       console.log(data.message);
+      alert('ERROR!!! User Info Not Updated');
     }
     LoggedUser();
   };
+
+  console.log(errors);
 
   return (
     <div className="container-fluid">
@@ -94,133 +104,146 @@ const UpdateUserInfo = () => {
         </div>
         <div className="col my-5 py-0 py-md-5" id="profile">
           <div className="formDiv mt-4">
-            <form onSubmit={updateUserInfo}>
+            <form onSubmit={handleSubmit(updateUserInfo)}>
               <fieldset>
                 <legend>Update User Info</legend>
                 <div className="row">
-                  <div className="col-md-5">
+                  <div className="col-md-6">
                     <div className="form-floating mb-3">
                       <input
                         id="alias"
-                        className="form-control "
-                        type="alias"
-                        value={updateInfo.alias}
+                        className={`form-control ${errors.alias ? 'is-invalid' : ''}`}
+                        type="text"
+                        name="alias"
                         placeholder="alias"
-                        onChange={handleChange}
+                        {...register('alias')}
                       />
                       <label htmlFor="alias">Alias: {userInfo?.alias}</label>
                     </div>
                   </div>
-                  <div className="col-md-5">
+                  <div className="col-md-6">
                     <div className="form-floating mb-3">
                       <input
                         id="email"
+                        className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+                        type="text"
+                        name="email"
+                        placeholder="Email"
+                        {...register('email')}
+                      />
+                      {/* <input
+                        id="email"
+                        name="email"
                         className="form-control "
                         type="email"
                         value={updateInfo.email}
                         placeholder="name@example.com"
                         onChange={handleChange}
-                      />
+                      /> */}
                       <label htmlFor="email">Email: {userInfo?.email}</label>
                     </div>
                   </div>
-                  <div className="col-md-5">
+                  <div className="col-md-6">
                     <div className="form-floating mb-3">
                       <input
                         id="name"
-                        className="form-control "
-                        type="name"
-                        value={updateInfo.name}
+                        className={`form-control ${errors.name ? 'is-invalid' : ''}`}
+                        type="text"
+                        name="name"
                         placeholder="Name"
-                        onChange={handleChange}
+                        {...register('name')}
                       />
                       <label htmlFor="name">Name: {userInfo?.name}</label>
                     </div>
                   </div>
-                  <div className="col-md-5">
+                  <div className="col-md-6">
                     <div className="form-floating mb-3">
                       <input
                         id="surname"
-                        className="form-control "
-                        type="surname"
-                        value={updateInfo.surname}
-                        placeholder="name@example.com"
-                        onChange={handleChange}
+                        className={`form-control ${errors.surname ? 'is-invalid' : ''}`}
+                        type="text"
+                        name="surname"
+                        placeholder="surname"
+                        {...register('surname')}
                       />
                       <label htmlFor="surname">Surname: {userInfo?.surname}</label>
                     </div>
                   </div>
 
-                  <div className="col-md-5">
+                  <div className="col-md-6">
                     <div className="form-floating mb-3">
                       <input
                         id="phone"
-                        name="phone"
-                        className="form-control"
+                        className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
                         type="text"
-                        value={updateInfo.phone}
-                        placeholder="Last Name"
-                        onChange={handleChange}
+                        name="phone"
+                        placeholder="Phone No"
+                        {...register('phone')}
                       />
                       <label htmlFor="phone">Phone : {userInfo?.phone}</label>
                     </div>
                   </div>
                   <hr className="my-2" />
                   <legend>Address Details</legend>
-                  <div className="col-md-5">
+                  <div className="col-md-6">
                     <div className="form-floating mb-3">
                       <input
                         id="country"
-                        name="country"
                         className="form-control"
                         type="text"
-                        value={updateInfo.country}
+                        name="address.country"
                         placeholder="country"
-                        onChange={handleChange}
+                        {...register('address.country')}
                       />
-                      <label htmlFor="country">Country : {userInfo?.country}</label>
+                      <label htmlFor="country">Country : {userInfo?.address?.country}</label>
                     </div>
                   </div>
-                  <div className="col-md-5">
+                  <div className="col-md-6">
                     <div className="form-floating mb-3">
                       <input
                         id="city"
-                        name="city"
                         className="form-control"
                         type="text"
-                        value={updateInfo.city}
+                        name="city"
                         placeholder="city"
-                        onChange={handleChange}
+                        {...register('address.city')}
                       />
-                      <label htmlFor="city">City : {userInfo?.city}</label>
+                      <label htmlFor="city">City : {userInfo?.address?.city}</label>
                     </div>
                   </div>
-                  <div className="col-md-5">
+                  <div className="col-md-6">
                     <div className="form-floating mb-3">
                       <input
                         id="street"
-                        name="street"
                         className="form-control"
                         type="text"
-                        value={updateInfo.street}
+                        name="address.street"
                         placeholder="street"
-                        onChange={handleChange}
+                        {...register('address.street')}
                       />
-                      <label htmlFor="street">Street : {userInfo?.street}</label>
+                      <label htmlFor="street">Street : {userInfo?.address?.street}</label>
                     </div>
                   </div>
-                  <div className="col-md-5">
+                  <div className="col-md-6">
                     <div className="form-floating mb-3">
                       <input
                         id="zipCode"
-                        name="zipCode"
+                        className={`form-control ${errors.zipCode ? 'is-invalid' : ''}`}
+                        type="number"
+                        name="address.zipCode"
+                        placeholder="Zip Code"
+                        {...register('address.zipCode')}
+                      />
+                      {/* <input
+                        id="zipCode"
+                        name="address.zipCode"
                         className="form-control"
                         type="text"
-                        value={updateInfo.zipCode}
+                        value={updateInfo?.address?.zipCode}
                         placeholder="zipCode"
                         onChange={handleChange}
-                      />
-                      <label htmlFor="zipCode">Zip Code : {userInfo?.zipCode}</label>
+                      /> */}
+                      <label htmlFor="zipCode">Zip Code : {userInfo?.address?.zipCode}</label>
                     </div>
                   </div>
                 </div>

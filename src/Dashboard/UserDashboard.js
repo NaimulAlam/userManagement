@@ -1,30 +1,41 @@
 import React, { useEffect, useState } from 'react';
+import img from '../Assets/Naim.jpg';
 
 const UserDashboard = () => {
   const [user, setUser] = useState({});
 
+  async function LoggedUser() {
+    const url = 'http://localhost:5000/userInfo';
+    const req = await fetch(url, {
+      headers: {
+        'x-access-token': localStorage.getItem('umtoken'),
+      },
+    });
+    const data = await req.json();
+    console.log('dt', data);
+    if (data.status === 'ok') {
+      setUser(data.userInfo);
+      console.log(data);
+    } else {
+      console.log(data.message);
+    }
+  }
+
   useEffect(() => {
-    const url = 'https://randomuser.me/api/';
-    fetch(url, {
-      method: 'GET',
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        setUser(data.results[0]);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    LoggedUser();
   }, []);
 
   return (
     <div className="container-fluid">
       <div className="m-md-5 m-1 py-3 px-md-5 px-1">
-        <img src={user?.picture?.large} className="bd-placeholder-img rounded-circle" width="140" height="140" alt="" />
-        <h2>{`${user?.name?.title}. ${user?.name?.first} ${user?.name?.last}`}</h2>
+        <img
+          src={user?.picture ? user?.picture : `${img}`}
+          className="bd-placeholder-img rounded-circle"
+          width="140"
+          height="140"
+          alt=""
+        />
+        <h2>{`${user?.name}. ${user?.surname}`}</h2>
         <p>Email: {user?.email}</p>
         <div className="accordion accordion-flush" id="accordionFlushExample">
           <div className="accordion-item">
@@ -51,12 +62,14 @@ const UserDashboard = () => {
                 <div className="col">
                   <div className="card p-2">
                     <div className="accordion-body">
-                      <p>Gender: {user?.gender}</p>
+                      <p>Alias: {user?.alias}</p>
+                      <p>Phone: {user?.phone}</p>
                       <p>Address :</p>
                       <ul className="list-group">
-                        <li className="list-group-item">Country: {user?.location?.country}</li>
-                        <li className="list-group-item">City: {user?.location?.city}</li>
-                        <li className="list-group-item">State: {user?.location?.state}</li>
+                        <li className="list-group-item">Country: {user?.address?.country}</li>
+                        <li className="list-group-item">City: {user?.address?.city}</li>
+                        <li className="list-group-item">State: {user?.address?.street}</li>
+                        <li className="list-group-item">Zip Code: {user?.address?.zipCode}</li>
                       </ul>
                       <a className="btn btn-info my-3" href="/update-details">
                         edit details

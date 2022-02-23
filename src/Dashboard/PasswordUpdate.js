@@ -13,10 +13,10 @@ const PasswordUpdate = () => {
   };
 
   async function LoggedUser() {
-    const url = 'https://goods4love.herokuapp.com/api/userInfo';
+    const url = 'http://localhost:5000/userInfo';
     const req = await fetch(url, {
       headers: {
-        'x-access-token': localStorage.getItem('token'),
+        'x-access-token': localStorage.getItem('umtoken'),
       },
     });
     const data = await req.json();
@@ -36,18 +36,18 @@ const PasswordUpdate = () => {
   const updateUserInfo = async (e) => {
     e.preventDefault();
     console.log('e', e);
-    const url = 'https://goods4love.herokuapp.com/api/userInfoUpdate';
+    const url = 'http://localhost:5000/updatePassword';
     const req = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-access-token': localStorage.getItem('token'),
+        'x-access-token': localStorage.getItem('umtoken'),
       },
       body: JSON.stringify({ password: updatePassword }),
     });
     const data = await req.json();
     if (data.status === 'ok') {
-      // updatePassword.password = '';
+      setUpdatePassword('');
     } else {
       console.log(data.message);
     }

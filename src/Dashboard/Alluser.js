@@ -1,20 +1,27 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import Navbar from './Navbar';
+import img from '../Assets/Naim.jpg';
 
 const Alluser = () => {
   const [alluser, setAllUser] = useState([]);
+  const navigate = useNavigate();
+  const { id } = useParams();
 
   useEffect(() => {
-    const url = 'https://randomuser.me/api/?results=10';
+    const url = 'http://localhost:5000/users';
     fetch(url, {
       method: 'GET',
+      headers: {
+        'x-access-token': localStorage.getItem('umtoken'),
+      },
     })
       .then((response) => {
         return response.json();
       })
       .then((data) => {
         console.log(data);
-        setAllUser(data.results);
+        setAllUser(data.users);
       })
       .catch((error) => {
         console.log(error);
@@ -36,23 +43,27 @@ const Alluser = () => {
                     <div className="card p-2">
                       <img
                         className="img-thumbnail mx-auto d-block rounded-circle"
-                        src={user?.picture.large}
+                        src={user?.picture ? user?.picture : `${img}`}
                         alt="user"
                       />
 
                       <h3>
-                        {user?.name.first} {user?.name.last}
+                        {user?.name} {user?.surname}
                       </h3>
                       <p>{user?.email}</p>
                       <p>
                         Some representative placeholder content for the three columns of text below the carousel. This
                         is the first column.
                       </p>
-                      <p>
-                        <a className="btn btn-secondary" href="#aaa">
-                          View details »
-                        </a>
-                      </p>
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={() => {
+                          navigate(`/user/${user?._id}`);
+                        }}
+                      >
+                        View details »
+                      </button>
                       <span className="btn position-absolute top-0 start-100 translate-middle badge border border-light rounded-circle bg-danger p-2">
                         <span className="visually-hidden">remove user</span>
                       </span>
