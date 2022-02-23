@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import img from '../Assets/Naim.jpg';
+import img from '../Assets/Naim.png';
 
 const UserDashboard = () => {
   const [user, setUser] = useState({});

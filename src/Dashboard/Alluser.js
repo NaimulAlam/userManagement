@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import img from '../Assets/Naim.jpg';
+import img from '../Assets/Naim.png';
 
 const Alluser = () => {
   const [alluser, setAllUser] = useState([]);
