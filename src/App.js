@@ -5,6 +5,7 @@ import AddAdmin from './Dashboard/AddAdmin';
 import Alluser from './Dashboard/Alluser';
 import Dashboard from './Dashboard/Dashboard';
 import Navbar from './Dashboard/Navbar';
+import NotFound from './Dashboard/NotFound';
 import OneUser from './Dashboard/OneUser';
 import PasswordUpdate from './Dashboard/PasswordUpdate';
 import PrivateRoute from './Dashboard/PrivateRoute';
@@ -35,14 +36,14 @@ function App() {
   }
 
   return (
-    <div className={theme}>
+    <div className={`${theme}`}>
       <Navbar theme={theme} setTheme={setTheme} />
 
       <UserContext.Provider value={[loggedInUser, setLoggedInUser]}>
         <Routes>
           <Route path="/" element={<SignIn />} />
           <Route path="/registration" element={<Registration />} />
-          <Route path="/*" element={<PrivateRoute />}>
+          <Route path="" element={<PrivateRoute />}>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="update-details" element={<UpdateUserInfo />} />
             <Route path="update-password" element={<PasswordUpdate />} />
@@ -50,12 +51,15 @@ function App() {
             <Route path="users" element={<Alluser />} />
             <Route path="user/:id" element={<OneUser />} />
           </Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </UserContext.Provider>
 
-      <footer className="text-center">
-        <p className="mt-5 mb-3 text-muted">© NAIM {new Date().getFullYear()}</p>
-      </footer>
+      <div className="text-center mt-auto py-3 fixed-bottom">
+        <div className="container">
+          <span className="text-muted">© NAIM {new Date().getFullYear()}</span>
+        </div>
+      </div>
     </div>
   );
 }
