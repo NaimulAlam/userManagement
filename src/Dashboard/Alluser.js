@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import img from '../Assets/Naim.jpg';
 
 const Alluser = () => {
   const [alluser, setAllUser] = useState([]);
   const navigate = useNavigate();
-  const { id } = useParams();
 
   useEffect(() => {
     const url = 'http://localhost:5000/users';
