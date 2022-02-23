@@ -62,7 +62,7 @@ const Registration = () => {
     // console.log(submit);
     reset();
     // api call
-    const url = 'http://localhost:5000/register';
+    const url = 'https://user-management-naim.herokuapp.com/register';
     fetch(url, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },

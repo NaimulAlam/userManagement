@@ -9,7 +9,7 @@ const AddAdmin = () => {
   };
 
   async function LoggedUser() {
-    const url = 'http://localhost:5000/userInfo';
+    const url = 'https://user-management-naim.herokuapp.com/userInfo';
     const req = await fetch(url, {
       headers: {
         'x-access-token': localStorage.getItem('umtoken'),
@@ -35,7 +35,7 @@ const AddAdmin = () => {
       adminEmail,
       user: userInfo.email,
     };
-    const url = 'http://localhost:5000/addAdmin';
+    const url = 'https://user-management-naim.herokuapp.com/addAdmin';
     fetch(url, {
       method: 'POST',
       headers: { 'content-type': 'application/json', 'x-access-token': localStorage.getItem('umtoken') },

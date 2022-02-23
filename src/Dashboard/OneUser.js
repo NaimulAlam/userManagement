@@ -7,7 +7,7 @@ const OneUser = () => {
   const [deleteUser, setDeleteUser] = useState(false);
 
   useEffect(() => {
-    const url = `http://localhost:5000/userInfo/${id}`;
+    const url = `https://user-management-naim.herokuapp.com/userInfo/${id}`;
     fetch(url, {
       method: 'GET',
       headers: {
@@ -27,7 +27,7 @@ const OneUser = () => {
 
   const handleClick = (e) => {
     e.preventDefault();
-    const url = `http://localhost:5000/delete/${id}`;
+    const url = `https://user-management-naim.herokuapp.com/delete/${id}`;
     fetch(url, {
       headers: {
         'x-access-token': localStorage.getItem('umtoken'),

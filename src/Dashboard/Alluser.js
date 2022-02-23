@@ -7,7 +7,7 @@ const Alluser = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const url = 'http://localhost:5000/users';
+    const url = 'https://user-management-naim.herokuapp.com/users';
     fetch(url, {
       method: 'GET',
       headers: {

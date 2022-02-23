@@ -49,7 +49,7 @@ const UpdateUserInfo = () => {
   } = useForm(formOptions);
 
   async function LoggedUser() {
-    const url = 'http://localhost:5000/userInfo';
+    const url = 'https://user-management-naim.herokuapp.com/userInfo';
     const req = await fetch(url, {
       headers: {
         'x-access-token': localStorage.getItem('umtoken'),
@@ -68,7 +68,7 @@ const UpdateUserInfo = () => {
   }, []);
 
   const updateUserInfo = async (submit) => {
-    const url = 'http://localhost:5000/updateUserInfo';
+    const url = 'https://user-management-naim.herokuapp.com/updateUserInfo';
     const req = await fetch(url, {
       method: 'POST',
       headers: {

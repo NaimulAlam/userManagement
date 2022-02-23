@@ -28,7 +28,7 @@ const SignIn = () => {
   // login api call
   const onSubmit = async (submit) => {
     // console.log(submit);
-    const url = 'http://localhost:5000/login';
+    const url = 'https://user-management-naim.herokuapp.com/login';
     const response = await fetch(url, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
