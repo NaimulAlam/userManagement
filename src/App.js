@@ -1,10 +1,10 @@
-/* eslint-disable import/no-cycle */
 import { createContext, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import AddAdmin from './Dashboard/AddAdmin';
 import Alluser from './Dashboard/Alluser';
 import Dashboard from './Dashboard/Dashboard';
+import Navbar from './Dashboard/Navbar';
 import OneUser from './Dashboard/OneUser';
 import PasswordUpdate from './Dashboard/PasswordUpdate';
 import PrivateRoute from './Dashboard/PrivateRoute';
@@ -25,12 +25,17 @@ function App() {
     info.email = decoded.email;
     info.name = decoded.name;
     info.surname = decoded.surname;
-    console.log('info', info);
-    console.log('decoded', decoded);
+    info.loggedInUser = true;
+    console.log(info);
+    if (decoded.email) {
+      setLoggedInUser(info);
+    }
   }
 
   return (
     <div>
+      <Navbar />
+
       <UserContext.Provider value={[loggedInUser, setLoggedInUser]}>
         <Routes>
           <Route path="/" element={<SignIn />} />
@@ -45,6 +50,10 @@ function App() {
           </Route>
         </Routes>
       </UserContext.Provider>
+
+      <footer className="text-center">
+        <p className="mt-5 mb-3 text-muted">© NAIM {new Date().getFullYear()}</p>
+      </footer>
     </div>
   );
 }

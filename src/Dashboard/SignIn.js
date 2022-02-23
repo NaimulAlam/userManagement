@@ -1,10 +1,8 @@
-/* eslint-disable import/no-cycle */
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-// eslint-disable-next-line import/no-cycle
 
 const SignIn = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -40,7 +38,6 @@ const SignIn = () => {
     if (data.userToken) {
       localStorage.setItem('umtoken', data.userToken);
       setIsLoggedIn(true);
-      console.log(data);
       navigate('/dashboard');
       window.location.reload();
     } else {
@@ -111,9 +108,6 @@ const SignIn = () => {
           </form>
         </div>
       </div>
-      <footer className="text-center">
-        <p className="mt-5 mb-3 text-muted">© NAIM {new Date().getFullYear()}</p>
-      </footer>
     </div>
   );
 };

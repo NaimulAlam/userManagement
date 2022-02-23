@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import Navbar from './Navbar';
 
 const PasswordUpdate = () => {
   const [userInfo, setUserInfo] = useState({});
   const [updatePassword, setUpdatePassword] = useState('');
 
-  console.log('upd', updatePassword);
-
   const handleChange = (e) => {
     setUpdatePassword(e.target.value);
-    console.log('ChangeP', updatePassword);
   };
 
   async function LoggedUser() {
@@ -20,10 +16,8 @@ const PasswordUpdate = () => {
       },
     });
     const data = await req.json();
-    console.log('dt', data);
     if (data.status === 'ok') {
       setUserInfo(data?.userInfo);
-      console.log(data);
     } else {
       console.log(data.message);
     }
@@ -35,7 +29,6 @@ const PasswordUpdate = () => {
 
   const updateUserInfo = async (e) => {
     e.preventDefault();
-    console.log('e', e);
     const url = 'http://localhost:5000/updatePassword';
     const req = await fetch(url, {
       method: 'POST',
@@ -57,9 +50,6 @@ const PasswordUpdate = () => {
   return (
     <div className="container-fluid">
       <div>
-        <div>
-          <Navbar />
-        </div>
         <div className="col my-5 py-0 py-md-5" id="profile">
           <div className="formDiv mt-4">
             <form onSubmit={updateUserInfo}>

@@ -14,7 +14,6 @@ const PrivateRoute = () => {
       });
       const data = await req.json();
       if (data.status === 'ok') {
-        console.log('auth data', data);
         setAuth(true);
       } else {
         setAuth(false);

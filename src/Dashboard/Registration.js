@@ -1,13 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import Navbar from './Navbar';
 
 const Registration = () => {
-  // const [isLoggedIn] = useContext(UserContext);
-
   const navigate = useNavigate();
   // form validation rules for yup
   const validationSchema = Yup.object().shape({
@@ -62,7 +59,7 @@ const Registration = () => {
 
   // registration api call
   const onSubmit = (submit) => {
-    console.log(submit);
+    // console.log(submit);
     reset();
     // api call
     const url = 'http://localhost:5000/register';
@@ -75,7 +72,6 @@ const Registration = () => {
         return res.json();
       })
       .then((data) => {
-        console.log(data);
         if (data.status === 'OK') {
           reset();
           alert('Sign Up Successfull!');
@@ -88,22 +84,11 @@ const Registration = () => {
       .catch((err) => {
         console.log('err', err);
       });
-    // // display form data on success
-    // alert(`SUCCESS!! :-)\n\n${JSON.stringify(data, null, 4)}`);
   };
   console.log(errors);
 
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     navigate('/');
-  //   } else {
-  //     navigate('/registration');
-  //   }
-  // }, [isLoggedIn, navigate]);
-
   return (
     <div>
-      <Navbar />
       <div datatype="form" id="SignUp" className="container my-4 pt-2">
         <form onSubmit={handleSubmit(onSubmit)} className="formDiv row g-3 px-md-5">
           <h3 className="text-center py-3"> Create An Acount </h3>

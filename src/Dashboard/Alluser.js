@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Navbar from './Navbar';
 import img from '../Assets/Naim.jpg';
 
 const Alluser = () => {
@@ -20,7 +19,6 @@ const Alluser = () => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         setAllUser(data.users);
       })
       .catch((error) => {
@@ -30,7 +28,6 @@ const Alluser = () => {
   return (
     <div className="container-fluid text-center">
       <div>
-        <Navbar />
         <h1 className="display-4">All User</h1>
       </div>
       <div>

@@ -12,7 +12,6 @@ const UserDashboard = () => {
       },
     });
     const data = await req.json();
-    console.log('dt', data);
     if (data.status === 'ok') {
       setUser(data.userInfo);
       console.log(data);

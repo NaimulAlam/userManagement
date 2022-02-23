@@ -3,8 +3,6 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 
-import Navbar from './Navbar';
-
 const UpdateUserInfo = () => {
   const [userInfo, setUserInfo] = useState({});
 
@@ -58,10 +56,8 @@ const UpdateUserInfo = () => {
       },
     });
     const data = await req.json();
-    console.log('dt', data);
     if (data.status === 'ok') {
       setUserInfo(data?.userInfo);
-      console.log(data);
     } else {
       console.log(data.message);
     }
@@ -72,7 +68,6 @@ const UpdateUserInfo = () => {
   }, []);
 
   const updateUserInfo = async (submit) => {
-    console.log('submit Update', submit);
     const url = 'http://localhost:5000/updateUserInfo';
     const req = await fetch(url, {
       method: 'POST',
@@ -84,7 +79,6 @@ const UpdateUserInfo = () => {
     });
     const data = await req.json();
     if (data.status === 'ok') {
-      console.log('data submitted', data);
       alert('User Info Updated');
       reset();
     } else {
@@ -99,9 +93,6 @@ const UpdateUserInfo = () => {
   return (
     <div className="container-fluid">
       <div>
-        <div>
-          <Navbar />
-        </div>
         <div className="col my-5 py-0 py-md-5" id="profile">
           <div className="formDiv mt-4">
             <form onSubmit={handleSubmit(updateUserInfo)}>
@@ -131,15 +122,6 @@ const UpdateUserInfo = () => {
                         placeholder="Email"
                         {...register('email')}
                       />
-                      {/* <input
-                        id="email"
-                        name="email"
-                        className="form-control "
-                        type="email"
-                        value={updateInfo.email}
-                        placeholder="name@example.com"
-                        onChange={handleChange}
-                      /> */}
                       <label htmlFor="email">Email: {userInfo?.email}</label>
                     </div>
                   </div>
@@ -234,15 +216,6 @@ const UpdateUserInfo = () => {
                         placeholder="Zip Code"
                         {...register('address.zipCode')}
                       />
-                      {/* <input
-                        id="zipCode"
-                        name="address.zipCode"
-                        className="form-control"
-                        type="text"
-                        value={updateInfo?.address?.zipCode}
-                        placeholder="zipCode"
-                        onChange={handleChange}
-                      /> */}
                       <label htmlFor="zipCode">Zip Code : {userInfo?.address?.zipCode}</label>
                     </div>
                   </div>

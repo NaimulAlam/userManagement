@@ -1,6 +1,9 @@
 import React from 'react';
 
 const Navbar = () => {
+  const handleLogout = () => {
+    localStorage.removeItem('umtoken');
+  };
   return (
     <div>
       <header className="p-3 mb-3 border-bottom">
@@ -47,7 +50,7 @@ const Navbar = () => {
                   <hr className="dropdown-divider" />
                 </li>
                 <li>
-                  <a href="/" className="btn btn-danger">
+                  <a href="/" className="btn btn-danger" onClick={handleLogout}>
                     <i className="bi-x-octagon-fill pe-2" />
                     <span>Signout</span>
                   </a>

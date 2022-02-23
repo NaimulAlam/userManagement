@@ -1,6 +1,4 @@
-/* eslint-disable import/no-cycle */
 import React, { useEffect, useState } from 'react';
-import Navbar from './Navbar';
 
 const AddAdmin = () => {
   const [userInfo, setUserInfo] = useState({});
@@ -18,10 +16,8 @@ const AddAdmin = () => {
       },
     });
     const data = await req.json();
-    console.log('dt', data);
     if (data.status === 'ok') {
       setUserInfo(data?.userInfo);
-      console.log(data);
     } else {
       console.log(data.message);
     }
@@ -46,11 +42,9 @@ const AddAdmin = () => {
       body: JSON.stringify(AdminData),
     })
       .then((res) => {
-        console.log('admin res', res);
         return res.json();
       })
       .then((data) => {
-        console.log('AddAdmin resdata', data);
         if (data.status === 'ok') {
           // update the input to blank after submit
           setAdminEmail('');
@@ -69,9 +63,6 @@ const AddAdmin = () => {
   return (
     <div className="container-fluid">
       <div>
-        <div>
-          <Navbar />
-        </div>
         <div className="my-5 py-5" id="profile">
           <div className="formDiv my-5 py-5">
             <form onSubmit={handleSubmit}>
